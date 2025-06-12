@@ -119,8 +119,8 @@ Contributions, issues, and feature requests are welcome! Feel free to check [iss
 ## 👨‍💻 Author
 
 Your Name
-- GitHub: [@your-username](https://github.com/Visris-19)
-- LinkedIn: [Your Name](https://www.linkedin.com/in/vishal-pandey-aab2692b4/)
+- GitHub: [Visris-19](https://github.com/Visris-19)
+- LinkedIn: [Vishal Pandey](https://www.linkedin.com/in/vishal-pandey-aab2692b4/)
 
 ---
 
