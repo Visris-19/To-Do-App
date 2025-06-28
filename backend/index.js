@@ -52,15 +52,13 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         secure: process.env.NODE_ENV === 'production',
+        httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }
 }));
 
 // Add this after your session middleware
 app.use((req, res, next) => {
-  console.log('Request path:', req.path);
-  console.log('Session ID:', req.sessionID);
-  console.log('Is Authenticated:', req.isAuthenticated?.());
   next();
 });
 
@@ -69,7 +67,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', (request, response) => {
-    console.log(request);
     return response.status(234).send('Welcome to the To-Do list app')
 });
 
@@ -81,6 +78,9 @@ app.use("/api/v2", profileRoutes); // Updated profile routes import
 const validateEmail = require('./middleware/emailValidation');
 app.use("/api/v1/register", validateEmail);
 app.use("/api/v1/login", validateEmail);
+
+const settingsRoutes = require('./routes/settings');
+app.use('/api/v2/settings', settingsRoutes);
 
 // Apply rate limiting
 app.use('/api', limiter);

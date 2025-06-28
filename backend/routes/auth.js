@@ -100,9 +100,26 @@ router.post('/signin', validateEmail, async (req, res) => {
 });
 
 router.post('/logout', (req, res) => {
-  res.clearCookie('auth-token');
-  return res.status(200).json({ message: 'Logged out successfully' });
-})
+  try {
+    // Destroy the session
+    req.session.destroy((err) => {
+      if (err) {
+        console.error('Session destruction error:', err);
+        return res.status(500).json({ message: 'Logout failed' });
+      }
+
+      // Clear all cookies
+      res.clearCookie('connect.sid', { path: '/' });
+      res.clearCookie('token', { path: '/' });
+      
+      // Send success response
+      res.status(200).json({ message: 'Logged out successfully' });
+    });
+  } catch (error) {
+    console.error('Logout error:', error);
+    res.status(500).json({ message: 'Logout failed' });
+  }
+});
 
 // Google Authentication
 router.get('/auth/google',

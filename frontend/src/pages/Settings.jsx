@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
+import { toast } from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const Settings = () => {
-  const { user } = useAuth()
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const [settings, setSettings] = useState({
     theme: 'dark',
     emailNotifications: true,
@@ -10,15 +14,110 @@ const Settings = () => {
     language: 'en',
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
   })
+  
+  useEffect(() => {
+    fetchSettings();
+  }, []);
 
+  const fetchSettings = async () => {
+    try { 
+      const response = await fetch('http://localhost:5000/api/v2/settings', {
+        credentials: 'include'
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setSettings(data);
+      }
+    } catch (error) {
+      toast.error('Failed to load settings');
+    }
+  };
   const [activeTab, setActiveTab] = useState('general')
   const [isSaving, setIsSaving] = useState(false)
 
+  // const handleSave = async () => {
+  //   setIsSaving(true)
+  //   // TODO: Implement settings update logic
+  //   setTimeout(() => setIsSaving(false), 1000)
+  // }
+
   const handleSave = async () => {
-    setIsSaving(true)
-    // TODO: Implement settings update logic
-    setTimeout(() => setIsSaving(false), 1000)
-  }
+    setIsSaving(true);
+    try {
+      const response = await fetch('http://localhost:5000/api/v2/settings', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify(settings)
+      });
+
+      if (response.ok) {
+        toast.success('Settings saved successfully');
+      } else {
+        throw new Error('Failed to save settings');
+      }
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+      try {
+        const response = await fetch('http://localhost:5000/api/v2/settings/account', {
+          method: 'DELETE',
+          credentials: 'include',
+          headers: {
+          'Content-Type': 'application/json'
+        }
+        });
+
+        if (response.status === 401) {
+        toast.error('Session expired. Please login again.');
+        logout();
+        navigate('/login');
+        return;
+      }
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || 'Failed to delete account');
+      }
+
+      await logout();
+      navigate('/');
+      toast.success('Account deleted successfully');
+    } catch (error) {
+      console.error('Delete account error:', error);
+      toast.error(error.message || 'Failed to delete account');
+    }
+    }
+  };
+ const handleExportData = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/v2/settings/export', {
+        credentials: 'include'
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'todo-app-data.json';
+        a.click();
+        window.URL.revokeObjectURL(url);
+        toast.success('Data exported successfully');
+      }
+    } catch (error) {
+      toast.error('Failed to export data');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
@@ -126,7 +225,8 @@ const Settings = () => {
               <div className="space-y-6">
                 <div>
                   <h3 className="text-lg font-medium text-white mb-4">Data & Privacy</h3>
-                  <button
+                  <button 
+                    onClick={handleDeleteAccount}
                     className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
                   >
                     Delete Account
@@ -138,6 +238,7 @@ const Settings = () => {
 
                 <div className="mt-8">
                   <button
+                    onClick={handleExportData}
                     className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     Export Data

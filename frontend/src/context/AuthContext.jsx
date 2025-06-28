@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await fetch('http://localhost:5000/api/v1/login', {
+      const response = await fetch('http://localhost:5000/api/v1/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -50,6 +50,23 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // const logout = async () => {
+  //   try {
+  //     await fetch('http://localhost:5000/api/v1/logout', {
+  //       method: 'POST',
+  //       credentials: 'include',
+  //       headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //     });
+  //     setUser(null);
+  //     navigate('/');
+  //     toast.success('Logged out successfully');
+  //   } catch (error) {
+  //     console.error('Logout error:', error);
+  //     toast.error('Logout failed');
+  //   }
+  // };
   const logout = async () => {
     try {
       await fetch('http://localhost:5000/api/v1/logout', {
@@ -62,6 +79,7 @@ export const AuthProvider = ({ children }) => {
       console.error('Logout error:', error);
     }
   };
+
 
   const updateUserData = (data) => {
     setUser(prev => ({
