@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-hot-toast';
 import FormField from '../components/FormField';
@@ -57,6 +57,7 @@ const PasswordField = ({ id, label, value, onChange, placeholder, error, showPas
 
 const Login = () => {
   const navigate = useNavigate();
+  const location= useLocation();
   const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);

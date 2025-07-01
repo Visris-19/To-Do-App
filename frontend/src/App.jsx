@@ -16,6 +16,7 @@ import Tasks from './pages/Tasks'
 import { AuthProvider } from './context/AuthContext'
 import Terms from './pages/Terms';
 import Cookies from './pages/Cookies';
+import ProtectedRoute from './components/ProtectedRoute'
 
 
 
@@ -25,17 +26,22 @@ function App() {
       <Navbar />
       <main className="flex-grow">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/privacy" element={<Privacy/>} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/tasks" element={<Tasks />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/cookies" element={<Cookies />} />
-        </Routes>
+  {/* Public routes */}
+  <Route path="/" element={<Home />} />
+  <Route path="/login" element={<Login />} />
+  <Route path="/register" element={<Register />} />
+  <Route path="/privacy" element={<Privacy />} />
+  <Route path="/terms" element={<Terms />} />
+  <Route path="/cookies" element={<Cookies />} />
+
+  {/* Protected routes */}
+  <Route element={<ProtectedRoute />}>
+    <Route path="/dashboard" element={<Dashboard />} />
+    <Route path="/profile" element={<Profile />} />
+    <Route path="/settings" element={<Settings />} />
+    <Route path="/tasks" element={<Tasks />} />
+  </Route>
+</Routes>
       </main>
       <CookieConsent />
       <Footer />
