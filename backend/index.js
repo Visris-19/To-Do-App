@@ -80,7 +80,7 @@ app.use("/api/v1/register", validateEmail);
 app.use("/api/v1/login", validateEmail);
 
 const settingsRoutes = require('./routes/settings');
-app.use('/api/v2/settings', settingsRoutes);
+app.use('/api/v2', settingsRoutes);
 
 // Apply rate limiting
 app.use('/api', limiter);

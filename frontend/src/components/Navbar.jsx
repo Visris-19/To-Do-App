@@ -18,6 +18,7 @@ const Navbar = () => {
         credentials: 'include'
       })
       if (response.ok) {
+        setAvatar(null); // Clear avatar on logout
         logout()
         navigate('/')
       }
@@ -75,6 +76,10 @@ const Navbar = () => {
     </div>
   )
   const fetchAvatar = async () => {
+    if (!user) {
+      setAvatar(null);
+      return;
+    }
      try {
       const response = await fetch('http://localhost:5000/api/v2/profile', {
         credentials: 'include'

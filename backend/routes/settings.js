@@ -5,12 +5,12 @@ const User = require('../dbmodel/user');
 const authMiddleware = require('../middleware/authMiddleware');
 
 // Get user settings
-router.get('/', authMiddleware, async (req, res) => {
+router.get('/settings', authMiddleware, async (req, res) => {
   try {
-    let settings = await Settings.findOne({ user: req.user._id });
+    let settings = await Settings.findOne({ user: req.user.id });
     
     if (!settings) {
-      settings = await Settings.create({ user: req.user._id });
+      settings = await Settings.create({ user: req.user.id });
     }
     
     res.json(settings);
@@ -23,7 +23,7 @@ router.get('/', authMiddleware, async (req, res) => {
 router.put('/update', authMiddleware, async (req, res) => {
   try {
     const settings = await Settings.findOneAndUpdate(
-      { user: req.user._id },
+      { user: req.user.id },
       req.body,
       { new: true, runValidators: true, upsert: true }
     );
@@ -37,7 +37,7 @@ router.put('/update', authMiddleware, async (req, res) => {
 // Delete account
 router.delete('/account', authMiddleware, async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.user.id;
     // Delete user's tasks, settings, and other related data
     
     // Delete user's settings
@@ -47,7 +47,7 @@ router.delete('/account', authMiddleware, async (req, res) => {
     await List.deleteMany({ user: userId });
 
     // Delete user
-    await User.deleteOne({ _id: userId });
+    await User.deleteOne({ id: userId });
     
     
     // Clear session
@@ -67,8 +67,8 @@ router.delete('/account', authMiddleware, async (req, res) => {
 // Export user data
 router.get('/export', authMiddleware, async (req, res) => {
   try {
-    const userData = await User.findById(req.user._id).select('-password');
-    const userSettings = await Settings.findOne({ user: req.user._id });
+    const userData = await User.findById(req.user.id).select('-password');
+    const userSettings = await Settings.findOne({ user: req.user.id });
     // Add other data you want to export
     
     res.json({
