@@ -39,9 +39,10 @@
 <td align="center" width="33%">
 
 ### 🔐 Secure Authentication
-<img src="https://img.icons8.com/external-flaticons-flat-flat-icons/64/000000/external-authentication-cyber-security-flaticons-flat-flat-icons.png" width="60"/>
+<img src="https://cdn-icons-png.flaticon.com/128/2913/2913133.png" width="60"/>
 
 ✅ Email/Password login<br/>
+✅ **Email verification system**<br/>
 ✅ Session management<br/>
 ✅ Profile customization<br/>
 ✅ Secure JWT tokens
@@ -50,7 +51,7 @@
 <td align="center" width="33%">
 
 ### 📋 Task Management
-<img src="https://img.icons8.com/external-flaticons-flat-flat-icons/64/000000/external-task-project-management-flaticons-flat-flat-icons.png" width="60"/>
+<img src="https://cdn-icons-png.flaticon.com/128/906/906334.png" width="60"/>
 
 ✅ Create, edit, delete tasks<br/>
 ✅ Set priorities & due dates<br/>
@@ -61,7 +62,7 @@
 <td align="center" width="33%">
 
 ### 👤 User Profile
-<img src="https://img.icons8.com/external-flaticons-flat-flat-icons/64/000000/external-profile-dating-app-flaticons-flat-flat-icons.png" width="60"/>
+<img src="https://cdn-icons-png.flaticon.com/128/1077/1077012.png" width="60"/>
 
 ✅ Custom avatar upload<br/>
 ✅ Bio and social links<br/>
@@ -83,10 +84,10 @@
 
 | Feature | Description | Demo |
 |---------|-------------|------|
-| 🌙 **Dark Mode** | Beautiful dark theme support | <img src="https://img.icons8.com/fluency/48/000000/moon-symbol.png" width="30"/> |
-| 📱 **Responsive** | Works on all devices | <img src="https://img.icons8.com/fluency/48/000000/responsive.png" width="30"/> |
-| ✨ **Animations** | Smooth Framer Motion animations | <img src="https://img.icons8.com/fluency/48/000000/motion.png" width="30"/> |
-| 🔔 **Notifications** | Real-time toast notifications | <img src="https://img.icons8.com/fluency/48/000000/notification.png" width="30"/> |
+| 🌙 **Dark Mode** | Beautiful dark theme support | <img src="https://cdn-icons-png.flaticon.com/64/3159/3159076.png" width="30"/> |
+| 📱 **Responsive** | Works on all devices | <img src="https://cdn-icons-png.flaticon.com/64/889/889192.png" width="30"/> |
+| ✨ **Animations** | Smooth Framer Motion animations | <img src="https://cdn-icons-png.flaticon.com/64/3461/3461298.png" width="30"/> |
+| 🔔 **Notifications** | Real-time toast notifications | <img src="https://cdn-icons-png.flaticon.com/64/1827/1827301.png" width="30"/> |
 
 </div>
 
@@ -115,11 +116,12 @@
 <td align="center" width="50%">
 
 ### ⚙️ Backend
-<img src="https://skillicons.dev/icons?i=nodejs,express,mongodb,jwt" />
+<img src="https://skillicons.dev/icons?i=nodejs,express,mongodb" />
 
 - **Node.js & Express.js** server
 - **MongoDB** with Mongoose ODM
 - **JWT** authentication
+- **Nodemailer** for email verification
 - **Multer** for file uploads
 - **Express Session** management
 
@@ -325,7 +327,7 @@ See the [LICENSE](LICENSE) file for details
 
 <div align="center">
 
-<img src="https://avatars.githubusercontent.com/u/yourusername?v=4" width="100" style="border-radius: 50%;" alt="Vishal Pandey"/>
+<img src="https://github.com/Visris-19.png?size=100" width="100" style="border-radius: 50%;" alt="Vishal Pandey"/>
 
 ### **Vishal Pandey**
 *Full Stack Developer*
@@ -337,7 +339,7 @@ See the [LICENSE](LICENSE) file for details
 <a href="https://www.linkedin.com/in/vishal-pandey-aab2692b4/">
   <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
 </a>
-<a href="mailto:your.email@example.com">
+<a href="mailto:vrishijain2003@gmail.com">
   <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
 </a>
 </p>
