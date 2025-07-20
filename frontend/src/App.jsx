@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import Login from './pages/Login'
@@ -17,12 +17,17 @@ import { AuthProvider } from './context/AuthContext'
 import Terms from './pages/Terms';
 import Cookies from './pages/Cookies';
 import ProtectedRoute from './components/ProtectedRoute'
+import EmailVerification from './pages/EmailVerification';
+import ResendVerification from './pages/ResendVerification';
+import NotFound from './pages/NotFound';
 
 
 
 function App() {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100">
+    <Router>
+      <AuthProvider>
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
       <Navbar />
       <main className="flex-grow">
         <Routes>
@@ -33,6 +38,8 @@ function App() {
   <Route path="/privacy" element={<Privacy />} />
   <Route path="/terms" element={<Terms />} />
   <Route path="/cookies" element={<Cookies />} />
+  <Route path="/verify-email" element={<EmailVerification />} />
+  <Route path="/resend-verification" element={<ResendVerification />} />
 
   {/* Protected routes */}
   <Route element={<ProtectedRoute />}>
@@ -41,11 +48,16 @@ function App() {
     <Route path="/settings" element={<Settings />} />
     <Route path="/tasks" element={<Tasks />} />
   </Route>
+
+  {/* 404 Route - Must be last */}
+  <Route path="*" element={<NotFound />} />
 </Routes>
       </main>
       <CookieConsent />
       <Footer />
     </div>
+      </AuthProvider>
+    </Router>
   )
 }
 

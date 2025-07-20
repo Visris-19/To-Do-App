@@ -6,6 +6,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // Add this line
   const navigate = useNavigate();
 
   const login = async (email, password) => {
@@ -22,7 +23,11 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Login failed');
+        // Handle specific email verification error
+        if (data.message === 'email_not_verified') {
+          throw new Error('Please verify your email before logging in. Check your inbox or resend verification email.');
+        }
+        throw new Error(data.details || data.message || 'Login failed');
       }
 
       // Set initial user data from login response
@@ -97,12 +102,25 @@ export const AuthProvider = ({ children }) => {
       if (response.ok) {
         const data = await response.json();
         setUser(data);
+      } else if (response.status === 401) {
+        // User not authenticated - this is normal for initial page load
+        setUser(null);
       } else {
+        console.error('Auth check failed:', response.status);
         setUser(null);
       }
     } catch (error) {
-      console.error('Auth check failed:', error);
+      // Handle network errors gracefully (server might be starting up)
+      if (error.message.includes('Failed to fetch') || error.message.includes('fetch')) {
+        console.log('Backend server not ready yet');
+        // Don't retry automatically to avoid endless loops
+      } else {
+        console.error('Auth check failed:', error);
+      }
       setUser(null);
+    }
+    finally {
+      setLoading(false); // Set loading to false after auth check
     }
   };
 
@@ -112,7 +130,8 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ 
-      user, 
+      user,
+      loading, 
       login, 
       logout, 
       updateUserData,

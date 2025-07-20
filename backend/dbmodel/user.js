@@ -16,6 +16,16 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    verified: {
+        type: Boolean,
+        default: false,
+    },
+    verificationToken: String,
+    verificationTokenExpires: Date,
+    twoFA: {
+        enabled: { type: Boolean, default: false },
+        secret: String,
+    },
     list: [
         {
         type:mongoose.Types.ObjectId,

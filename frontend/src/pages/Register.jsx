@@ -3,12 +3,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import FormField from '../components/FormField';
 import ErrorAlert from '../components/ErrorAlert';
+import VerificationPopup from '../components/VerificationPopup';
 import { useFormValidation } from '../hooks/useFormValidation';
 
 const Register = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [showVerificationPopup, setShowVerificationPopup] = useState(false);
+  const [registeredEmail, setRegisteredEmail] = useState('');
 
   const validationRules = {
     username: [
@@ -68,20 +71,40 @@ const Register = () => {
       const data = await response.json();
 
       if (response.ok) {
-        toast.success('Account created successfully! Please login.');
-        navigate('/login');
+        toast.success('Registration successful! Please check your email to verify your account.');
+        setRegisteredEmail(formData.email);
+        setShowVerificationPopup(true);
       } else {
         throw new Error(data.message || 'Registration failed');
       }
     } catch (err) {
-      toast.error(err.message || 'Registration failed');
+      console.error('Registration error:', err);
+      if (err.message.includes('Failed to fetch') || err.message.includes('Connection refused')) {
+        toast.error('Unable to connect to server. Please check if the backend is running and try again.');
+      } else if (err.message.includes('User already exists')) {
+        toast.error('An account with this email or username already exists. Please use different credentials or try logging in.');
+      } else if (err.message.includes('already exists')) {
+        toast.error('This email or username is already taken. Please choose different ones.');
+      } else {
+        toast.error(err.message || 'Registration failed');
+      }
     } finally {
       setLoading(false);
     }
   };
 
+  const handleVerificationClose = () => {
+    setShowVerificationPopup(false);
+    navigate('/login');
+  };
+
+  const handleVerified = () => {
+    setShowVerificationPopup(false);
+    navigate('/login');
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 pt-12 pb-8 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 pt-12 pb-8 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
       <div className="w-full max-w-md bg-gray-800 p-6 rounded-xl shadow-2xl">
         <div className="mb-6">
           <div className="flex justify-center">
@@ -223,6 +246,16 @@ const Register = () => {
           </div>
         </div>
       </div>
+
+
+      {/* Verification Popup */}
+      {showVerificationPopup && (
+        <VerificationPopup
+          email={registeredEmail}
+          onClose={handleVerificationClose}
+          onVerified={handleVerified}
+        />
+      )}
     </div>
   );
 };

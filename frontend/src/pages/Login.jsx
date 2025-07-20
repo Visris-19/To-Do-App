@@ -255,6 +255,12 @@ const Login = () => {
         </div>
 
         <div className="mt-4 border-t border-gray-700 pt-4 text-center">
+          {/* <p className="text-sm text-gray-400 mb-2">
+            Email not verified?{' '}
+            <Link to="/resend-verification" className="font-medium text-blue-500 hover:text-blue-400">
+              Resend verification email
+            </Link>
+          </p> */}
           <p className="text-sm text-gray-400">
             By signing in, you agree to our{' '}
             <Link to="/terms" className="font-medium text-blue-500 hover:text-blue-400">
