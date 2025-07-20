@@ -33,7 +33,7 @@ const corsOptions = {
 };
 
 // Apply CORS before other middleware
-app.use(cors(corsOptions));
+app.use(cors());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(cookieParser());
 app.use(express.json());
