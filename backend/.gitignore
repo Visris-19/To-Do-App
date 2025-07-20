@@ -3,7 +3,6 @@
 
 # Environment and Config files
 .env
-config.js
 
 # Uploads directory
 /uploads/*
