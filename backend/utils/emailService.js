@@ -42,7 +42,7 @@ async function sendVerificationEmail(user, token) {
   const mailOptions = {
     from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
     to: user.email,
-    subject: '🔐 Verify Your Email - Todo App',
+    subject: '🔐 Verify Your Email - TaskFlow',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #3B82F6;">Welcome to Todo App!</h2>
